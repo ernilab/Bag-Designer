@@ -1,4 +1,4 @@
-<style>
+
   :root {
       --primary: #f36c1a;
       --dark: #000000;
@@ -671,4 +671,3 @@
   .slide-out {
       animation: slideOutToLeft 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
   }
-  </style>
