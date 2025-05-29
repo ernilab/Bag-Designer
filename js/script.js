@@ -523,22 +523,6 @@ function redrawCanvas() {
         
         ctx.restore();
         
-        // Подсвечиваем выбранную наклейку
-        if (sticker === selectedSticker) {
-            ctx.strokeStyle = '#46a2e0';
-            ctx.lineWidth = 3;
-            ctx.setLineDash([8, 4]);
-            ctx.strokeRect(sticker.x - 2, sticker.y - 2, sticker.width + 4, sticker.height + 4);
-            ctx.setLineDash([]);
-            
-            // Добавляем угловые маркеры
-            const cornerSize = 8;
-            ctx.fillStyle = '#46a2e0';
-            ctx.fillRect(sticker.x - cornerSize/2, sticker.y - cornerSize/2, cornerSize, cornerSize);
-            ctx.fillRect(sticker.x + sticker.width - cornerSize/2, sticker.y - cornerSize/2, cornerSize, cornerSize);
-            ctx.fillRect(sticker.x - cornerSize/2, sticker.y + sticker.height - cornerSize/2, cornerSize, cornerSize);
-            ctx.fillRect(sticker.x + sticker.width - cornerSize/2, sticker.y + sticker.height - cornerSize/2, cornerSize, cornerSize);
-        }
     });
 }
 
