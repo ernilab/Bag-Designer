@@ -57,7 +57,7 @@ body {
 
 /* Language Selection */
 #languageScreen {
-    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    background: linear-gradient(105deg, var(--dark), var(--blue-dark));
     display: flex;
     align-items: center;
     justify-content: center;
