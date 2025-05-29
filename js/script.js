@@ -608,3 +608,21 @@ function closeModal() {
         modal.classList.remove('active');
     }
 }
+
+// Добавить в showResultModal()
+function showResultModal() {
+    const modal = document.getElementById('resultModal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+    }
+}
+
+// Добавить в closeModal()
+function closeModal() {
+    const modal = document.getElementById('resultModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+}
