@@ -797,55 +797,59 @@ body {
 }
 
 @media (max-width: 768px) {
-    .modal {
-        padding: 0;
-        align-items: flex-end; /* Выравнивание по нижнему краю */
-        justify-content: center;
+    /* Убираем все возможные промежутки */
+    html, body, .modal, .modal-content {
+        box-sizing: border-box;
     }
-
+    
+    .modal {
+        margin: 0;
+        overflow: hidden;
+    }
+    
+    /* Фикс для модального окна */
+    .modal.active {
+        background: rgba(0,0,0,0.8);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px); /* для iOS */
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        flex-direction: column;
+    }
+    
     .modal-content {
         width: 100%;
-        max-width: 100%;
-        height: auto;
-        max-height: 90vh; /* Чтобы не занимало весь экран */
-        margin: 0;
-        border-radius: 20px 20px 0 0; /* Скругление только сверху */
-        padding: 20px 15px;
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto;
-        border-bottom: none;
-        box-shadow: 0 -5px 25px rgba(0,0,0,0.3);
+        margin-bottom: 0 !important; /* Важный фикс для некоторых браузеров */
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3);
+        transform: translateY(0);
     }
     
-    .modal-content h2 {
-        font-size: 1.4rem;
-        margin-bottom: 12px;
+    /* Улучшенный фикс для Safari на iOS */
+    @supports (-webkit-overflow-scrolling: touch) {
+        .modal-content {
+            padding-bottom: 30px;
+        }
     }
     
-    /* Компактная контактная информация */
-    .contact-info {
-        margin: 10px 0;
+    /* Для устройств с нижней панелью навигации */
+    @supports (padding-bottom: constant(safe-area-inset-bottom)) {
+        .modal-content {
+            padding-bottom: calc(20px + constant(safe-area-inset-bottom));
+        }
     }
+    
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+        .modal-content {
+            padding-bottom: calc(20px + env(safe-area-inset-bottom));
+        }
+    }
+}
 
-    .contact-item {
-        padding: 10px;
-        margin: 8px 0;
-        font-size: 0.9rem;
-    }
-    
-    /* Более компактные кнопки */
-    .modal-actions {
-        flex-direction: row;
-        gap: 10px;
-        margin-top: 15px;
-    }
-
-    .download-btn, .close-btn {
-        flex: 1;
-        padding: 14px 10px;
-        font-size: 0.95rem;
-        border-radius: 12px;
+/* Обеспечить закрепление модального окна снизу без промежутков */
+@media (max-width: 480px) {
+    .modal-content {
+        border-radius: 15px 15px 0 0;
     }
 }
 
