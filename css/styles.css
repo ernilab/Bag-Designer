@@ -757,17 +757,26 @@ body {
         font-size: 0.95rem;
     }
 
-    .modal-content {
-        padding: 15px 12px;
+     .modal-content {
+        padding: 20px 15px;
+        border-radius: 12px;
+        width: 92%;
     }
-
+    
     .modal-content h2 {
         font-size: 1.3rem;
+        margin-bottom: 12px;
     }
 
     .contact-item {
         padding: 10px;
+        margin: 8px 0;
         font-size: 0.9rem;
+    }
+
+    .modal-actions {
+        gap: 10px;
+        margin-top: 12px;
     }
 
     .download-btn, .close-btn {
