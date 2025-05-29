@@ -650,14 +650,14 @@ body {
     }
 
     .contact-info {
-        margin: 20px 50px;
-        flex-grow: 1;
-    }
-
-    .contact-item {
-        padding: 12px;
         margin: 12px 0;
-        font-size: 0.95rem;
+    }
+  
+    .contact-item {
+        display: flex;
+        align-items: center;
+        padding: 8px 10px;
+        margin: 5px 0;
     }
 
     .modal-actions {
@@ -686,6 +686,17 @@ body {
     .actions {
         padding: 15px 0;
         order: 3;
+    }
+
+    .contact-item strong {
+        min-width: 85px;
+        margin-right: 5px;
+    }
+  
+    .contact-item a {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
