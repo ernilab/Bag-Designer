@@ -10,6 +10,24 @@ let isDragging = false;
 let dragOffset = { x: 0, y: 0 };
 let selectedSticker = null;
 
+let dpr = window.devicePixelRatio || 1;
+
+function initializeDesigner() {
+  canvas = document.getElementById('bagCanvas');
+  // создаём контекст ДО resizeCanvas
+  ctx = canvas.getContext('2d');
+  // включаем сглаживание и ставим максимальное качество
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  setupCanvasEvents();
+  setupControls();
+  loadBagImage();
+  loadStickers();
+}
+
 // Инициализация приложения
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
@@ -337,30 +355,37 @@ function calculateCanvasSize(realWidthMM, realHeightMM) {
 }
 
 function resizeCanvas() {
-    if (!canvas) return;
-    
-    const container = canvas.parentElement;
-    const maxWidth = Math.min(container.clientWidth - 60, 500);
-    const maxHeight = Math.min(window.innerHeight * 0.6, 500);
-    
-    const bagAspectRatio = REAL_BAG_SIZE.width / REAL_BAG_SIZE.height;
-    
-    let canvasWidth, canvasHeight;
-    
-    if (maxWidth / maxHeight > bagAspectRatio) {
-        canvasHeight = maxHeight;
-        canvasWidth = canvasHeight * bagAspectRatio;
-    } else {
-        canvasWidth = maxWidth;
-        canvasHeight = canvasWidth / bagAspectRatio;
-    }
-    
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-    canvas.style.width = canvasWidth + 'px';
-    canvas.style.height = canvasHeight + 'px';
-    
-    redrawCanvas();
+  if (!canvas) return;
+
+  // вычисляем размер в CSS-пикселях, как раньше
+  const container = canvas.parentElement;
+  const maxWidth  = Math.min(container.clientWidth - 60, 500);
+  const maxHeight = Math.min(window.innerHeight * 0.6, 500);
+  const bagAR     = REAL_BAG_SIZE.width / REAL_BAG_SIZE.height;
+  let cssWidth, cssHeight;
+
+  if (maxWidth / maxHeight > bagAR) {
+    cssHeight = maxHeight;
+    cssWidth  = cssHeight * bagAR;
+  } else {
+    cssWidth  = maxWidth;
+    cssHeight = cssWidth / bagAR;
+  }
+
+  // ставим видимые размеры
+  canvas.style.width  = cssWidth + 'px';
+  canvas.style.height = cssHeight + 'px';
+
+  // ставим «физические» размеры под DPR
+  canvas.width  = Math.round(cssWidth  * dpr);
+  canvas.height = Math.round(cssHeight * dpr);
+
+  // ресетим трансформ и масштабируем контекст под DPR
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.scale(dpr, dpr);
+
+  // теперь canvas.buffer — в высоком разрешении, а рисуем мы в CSS-координатах
+  redrawCanvas();
 }
 
 // Настройка событий канваса
@@ -457,31 +482,43 @@ function handleEnd(e) {
 
 // Отрисовка канваса
 function redrawCanvas() {
-    if (!canvas || !ctx) return;
-    
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Рисуем изображение сумки
-    if (bagImage) {
-        ctx.drawImage(bagImage, 0, 0, canvas.width, canvas.height);
+  if (!canvas || !ctx) return;
+
+  // при любом перерисовывании убеждаемся, что сглаживание включено
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+
+  // очищаем в CSS-координатах
+  ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+
+  // рисуем сумку
+  if (bagImage) {
+    ctx.drawImage(
+      bagImage,
+      0, 0,
+      canvas.width / dpr,
+      canvas.height / dpr
+    );
+  }
+
+  // рисуем наклейки точно так же, но опять же в CSS-координатах
+  placedStickers.forEach(sticker => {
+    ctx.save();
+    // центр наклейки
+    ctx.translate(sticker.x + sticker.width / 2,
+                  sticker.y + sticker.height / 2);
+    if (sticker.rotation) {
+      ctx.rotate(sticker.rotation * Math.PI / 180);
     }
-    
-    // Рисуем размещенные наклейки
-    placedStickers.forEach(sticker => {
-        ctx.save();
-        
-        // Перемещаемся в центр наклейки для поворота
-        ctx.translate(sticker.x + sticker.width / 2, sticker.y + sticker.height / 2);
-        
-        // Поворачиваем если нужно
-        if (sticker.rotation) {
-            ctx.rotate(sticker.rotation * Math.PI / 180);
-        }
-        
-        // Рисуем наклейку от центра
-        ctx.drawImage(sticker.image, -sticker.width / 2, -sticker.height / 2, sticker.width, sticker.height);
-        
-        ctx.restore();
+    // размер и положение в CSS px
+    ctx.drawImage(
+      sticker.image,
+      -sticker.width  / 2,
+      -sticker.height / 2,
+      sticker.width,
+      sticker.height
+    );
+    ctx.restore();
         
         // Подсвечиваем выбранную наклейку
         if (sticker === selectedSticker) {
