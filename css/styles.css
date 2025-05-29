@@ -11,6 +11,7 @@
     --white: #ffffff;
     --gray-light: #f8f9fa;
     --gray-dark: #343a40;
+    --black: #000000;
 }
 
 * {
@@ -446,6 +447,18 @@ body {
     text-align: center;
     box-shadow: 0 25px 70px rgba(70, 162, 224, 0.4);
     color: var(--white);
+    animation: fadeInScale 0.3s ease forwards;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .modal-content h2 {
@@ -624,24 +637,23 @@ body {
         font-size: 0.85rem;
     }
 
-    /* МОДАЛЬНОЕ ОКНО - ПОЛНЫЙ ЭКРАН */
+    /* МОДАЛЬНОЕ ОКНО - КОМПАКТНОЕ ЦЕНТРАЛЬНОЕ */
     .modal {
-        padding: 0;
-        align-items: stretch;
+        padding: 20px;
+        align-items: center;
+        justify-content: center;
     }
 
     .modal-content {
-        width: 100vw;
-        height: 100vh;
-        max-width: none;
-        margin: 0;
-        border-radius: 0;
-        border: none;
-        padding: 20px 15px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        width: 90%;
+        max-width: 350px;
+        height: auto;
+        max-height: 80vh;
         overflow-y: auto;
+        margin: 0;
+        border-radius: 20px;
+        padding: 25px 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     }
 
     .modal-content h2 {
@@ -652,27 +664,26 @@ body {
     .contact-info {
         margin: 12px 0;
     }
-  
+
     .contact-item {
         display: flex;
         align-items: center;
-        padding: 8px 10px;
-        margin: 5px 0;
+        padding: 10px;
+        margin: 8px 0;
+        font-size: 0.9rem;
     }
 
     .modal-actions {
         flex-direction: column;
-        gap: 12px;
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 2px solid var(--blue);
+        gap: 10px;
+        margin-top: 15px;
     }
 
     .download-btn, .close-btn {
         width: 100%;
-        padding: 15px;
-        font-size: 1.1rem;
-        border-radius: 10px;
+        padding: 12px;
+        font-size: 1rem;
+        border-radius: 15px;
     }
 
     .save-btn {
@@ -692,7 +703,7 @@ body {
         min-width: 85px;
         margin-right: 5px;
     }
-  
+
     .contact-item a {
         white-space: nowrap;
         overflow: hidden;
@@ -768,110 +779,33 @@ body {
         font-size: 0.95rem;
     }
 
-     .modal-content {
-        padding: 20px 15px;
-        border-radius: 12px;
-        width: 92%;
+    /* МОДАЛЬНОЕ ОКНО - КОМПАКТНОЕ ДЛЯ МАЛЕНЬКИХ УСТРОЙСТВ */
+    .modal {
+        padding: 15px;
     }
-    
+
+    .modal-content {
+        width: 95%;
+        padding: 20px 15px;
+        border-radius: 15px;
+        max-height: 85vh;
+    }
+
     .modal-content h2 {
         font-size: 1.3rem;
         margin-bottom: 12px;
     }
 
     .contact-item {
-        padding: 10px;
-        margin: 8px 0;
-        font-size: 0.9rem;
-    }
-
-    .modal-actions {
-        gap: 10px;
-        margin-top: 12px;
-    }
-
-    .download-btn, .close-btn {
-        padding: 12px;
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 768px) {
-    /* Убираем все возможные промежутки */
-    html, body, .modal, .modal-content {
-        box-sizing: border-box;
-    }
-    
-    .modal {
-        margin: 0;
-        overflow: hidden;
-    }
-    
-    /* Фикс для модального окна */
-    .modal.active {
-        background: rgba(0,0,0,0.8);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px); /* для iOS */
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-        flex-direction: column;
-    }
-    
-    .modal-content {
-        width: 100%;
-        margin-bottom: 0 !important; /* Важный фикс для некоторых браузеров */
-        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3);
-        transform: translateY(0);
-    }
-    
-    /* Улучшенный фикс для Safari на iOS */
-    @supports (-webkit-overflow-scrolling: touch) {
-        .modal-content {
-            padding-bottom: 30px;
-        }
-    }
-    
-    /* Для устройств с нижней панелью навигации */
-    @supports (padding-bottom: constant(safe-area-inset-bottom)) {
-        .modal-content {
-            padding-bottom: calc(20px + constant(safe-area-inset-bottom));
-        }
-    }
-    
-    @supports (padding-bottom: env(safe-area-inset-bottom)) {
-        .modal-content {
-            padding-bottom: calc(20px + env(safe-area-inset-bottom));
-        }
-    }
-}
-
-/* Обеспечить закрепление модального окна снизу без промежутков */
-@media (max-width: 480px) {
-    .modal-content {
-        border-radius: 15px 15px 0 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .modal-content {
-        padding: 16px 12px;
-    }
-    
-    .modal-content h2 {
-        font-size: 1.25rem;
-        margin-bottom: 10px;
-    }
-
-    .contact-item {
-        padding: 8px 10px;
+        padding: 8px 12px;
         margin: 6px 0;
         font-size: 0.85rem;
+        border-radius: 8px;
     }
-    
+
     .contact-item strong {
-        display: block;
-        margin-bottom: 3px;
+        min-width: 70px;
+        font-size: 0.85rem;
     }
 
     .modal-actions {
@@ -880,9 +814,9 @@ body {
     }
 
     .download-btn, .close-btn {
-        padding: 12px 10px;
+        padding: 10px;
         font-size: 0.9rem;
-        border-radius: 10px;
+        border-radius: 12px;
     }
 }
 
@@ -934,18 +868,32 @@ html, body {
     width: 100%;
 }
 
-/* Анимация появления снизу для мобильной версии */
-@media (max-width: 768px) {
-    .modal.active .modal-content {
-        animation: slideInFromBottom 0.3s ease forwards;
+/* Блокировка скролла для модального окна */
+body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+/* Предотвращение прокрутки при клике на кнопки */
+.save-btn, .download-btn, .close-btn, .delete-btn, .deselect-btn {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+/* Фикс для краев экрана на устройствах с челкой */
+@supports (padding: max(0px)) {
+    .modal-content {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
     }
 }
 
-@keyframes slideInFromBottom {
-    from {
-        transform: translateY(100%);
-    }
-    to {
-        transform: translateY(0);
-    }
+/* Анимация для модального окна */
+.modal.active .modal-content {
+    animation: fadeInScale 0.3s ease forwards;
 }
