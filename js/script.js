@@ -355,14 +355,26 @@ function getTouchAngle(touches, centerX, centerY) {
 function handleTouchStart(e) {
     e.preventDefault();
     const currentTime = Date.now();
-    
+
     if (e.touches.length === 1) {
-        // Одиночное касание
         const pos = getEventPos(e);
         handleSingleTouchStart(pos, currentTime);
     } else if (e.touches.length === 2 && selectedSticker) {
-        // Двойное касание для вращения
-        handleRotationStart(e.touches);
+        // Проверяем, что касание в области значка поворота
+        const pos = getEventPos(e);
+        const stickerCenterX = selectedSticker.x + selectedSticker.width / 2;
+        const stickerCenterY = selectedSticker.y + selectedSticker.height / 2;
+        const rotationZoneX = stickerCenterX + selectedSticker.width / 2 + 10;
+        const rotationZoneY = stickerCenterY + selectedSticker.height / 2 + 10;
+        
+        const distance = Math.sqrt(
+            Math.pow(pos.x - rotationZoneX, 2) + 
+            Math.pow(pos.y - rotationZoneY, 2)
+        );
+
+        if (distance <= 20) {  // Радиус зоны касания
+            handleRotationStart(e.touches);
+        }
     }
 }
 
@@ -956,93 +968,60 @@ function isPointInSticker(point, sticker) {
            rectY <= sticker.y + sticker.height;
 }
 
-// Улучшенная отрисовка канваса
 function redrawCanvas() {
     if (!canvas || !ctx) return;
-    
     const canvasWidth = canvas.width / CANVAS_SETTINGS.pixelRatio / CANVAS_SETTINGS.quality;
     const canvasHeight = canvas.height / CANVAS_SETTINGS.pixelRatio / CANVAS_SETTINGS.quality;
-    
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    
-    // Рисуем изображение сумки с улучшенным качеством
+
     if (bagImage) {
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(bagImage, 0, 0, canvasWidth, canvasHeight);
     }
-    
-    // Рисуем размещенные наклейки
+
     placedStickers.forEach(sticker => {
         ctx.save();
-        
-        // Перемещаемся в центр наклейки для поворота
         ctx.translate(sticker.x + sticker.width / 2, sticker.y + sticker.height / 2);
         
-        // Поворачиваем если нужно
         if (sticker.rotation) {
             ctx.rotate(sticker.rotation * Math.PI / 180);
         }
-        
-        // Включаем сглаживание для наклеек
+
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
-        
-        // Рисуем наклейку от центра
         ctx.drawImage(sticker.image, -sticker.width / 2, -sticker.height / 2, sticker.width, sticker.height);
-        
         ctx.restore();
-        
-        // Подсвечиваем выбранную наклейку
+
         if (sticker === selectedSticker) {
             ctx.save();
-            
-            // Создаем рамку вокруг повернутой наклейки
             ctx.translate(sticker.x + sticker.width / 2, sticker.y + sticker.height / 2);
+            
             if (sticker.rotation) {
                 ctx.rotate(sticker.rotation * Math.PI / 180);
             }
-            
+
             ctx.strokeStyle = '#46a2e0';
             ctx.lineWidth = 2;
             ctx.setLineDash([8, 4]);
-            ctx.strokeRect(-sticker.width / 2 - 3, -sticker.height / 2 - 3, 
+            ctx.strokeRect(-sticker.width / 2 - 3, -sticker.height / 2 - 3,
                           sticker.width + 6, sticker.height + 6);
             ctx.setLineDash([]);
-            
-            // Добавляем угловые маркеры
-            const cornerSize = 6;
+
+            // Добавляем значок поворота в правый нижний угол
+            ctx.beginPath();
             ctx.fillStyle = '#46a2e0';
-            
-            // Четыре угла
-            const corners = [
-                [-sticker.width / 2 - 3, -sticker.height / 2 - 3],
-                [sticker.width / 2 + 3, -sticker.height / 2 - 3],
-                [-sticker.width / 2 - 3, sticker.height / 2 + 3],
-                [sticker.width / 2 + 3, sticker.height / 2 + 3]
-            ];
-            
-            corners.forEach(([x, y]) => {
-                ctx.fillRect(x - cornerSize/2, y - cornerSize/2, cornerSize, cornerSize);
-            });
-            
-            // Индикатор поворота в центре
-            if (Math.abs(sticker.rotation) > 1) {
-                ctx.strokeStyle = '#ff6b6b';
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.arc(0, 0, 15, 0, 2 * Math.PI);
-                ctx.stroke();
-                
-                // Стрелка направления
-                ctx.fillStyle = '#ff6b6b';
-                ctx.beginPath();
-                ctx.moveTo(12, 0);
-                ctx.lineTo(8, -3);
-                ctx.lineTo(8, 3);
-                ctx.fill();
-            }
-            
+            ctx.arc(sticker.width / 2 + 10, sticker.height / 2 + 10, 8, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Рисуем два пальца для индикации поворота
+            ctx.beginPath();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.moveTo(sticker.width / 2 + 6, sticker.height / 2 + 14);
+            ctx.lineTo(sticker.width / 2 + 14, sticker.height / 2 + 6);
+            ctx.stroke();
+
             ctx.restore();
         }
     });
