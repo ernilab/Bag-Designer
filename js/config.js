@@ -24,10 +24,10 @@ const STICKER_CONFIGS = {
     4: { width: 100, height: 100, type: 'square_large', name: 'Иконка доставки' },
     
     // Прямоугольные наклейки 24x9 см
-    5: { width: 280, height: 60, type: 'rectangle_wide', name: 'UBER DELIVERY' },
-    6: { width: 240, height: 90, type: 'rectangle_wide', name: 'Номер телефона' },
-    7: { width: 240, height: 90, type: 'rectangle_wide', name: 'Слоган' },
-    8: { width: 240, height: 90, type: 'rectangle_wide', name: 'Инструкции' },
+    5: { width: 280, height: 60, type: 'rectangle_wide', name: 'Call Us' },
+    6: { width: 280, height: 60, type: 'rectangle_wide', name: 'Become a courier with Eternis' },
+    7: { width: 280, height: 60, type: 'rectangle_wide', name: 'Слоган' },
+    8: { width: 280, height: 60, type: 'rectangle_wide', name: 'Инструкции' },
     
     // Дополнительные размеры
     9: { width: 150, height: 50, type: 'rectangle_medium', name: 'Средний текст' },
