@@ -25,7 +25,7 @@ const STICKER_CONFIGS = {
     
     // Прямоугольные наклейки 24x9 см
     5: { width: 280, height: 60, type: 'rectangle_wide', name: 'Call Us' },
-    6: { width: 280, height: 60, type: 'rectangle_wide', name: 'Become a courier with Eternis' },
+    6: { width: 240, height: 60, type: 'rectangle_wide', name: 'Become a courier with Eternis' },
     7: { width: 280, height: 60, type: 'rectangle_wide', name: 'Слоган' },
     8: { width: 280, height: 60, type: 'rectangle_wide', name: 'Инструкции' },
     
