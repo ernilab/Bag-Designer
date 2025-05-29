@@ -445,7 +445,7 @@ body {
     width: 90%;
     text-align: center;
     box-shadow: 0 25px 70px rgba(70, 162, 224, 0.4);
-    color: var(--dark);
+    color: var(--white);
 }
 
 .modal-content h2 {
