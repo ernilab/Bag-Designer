@@ -274,7 +274,7 @@ body {
 
 /* Control Panel */
 .control-panel {
-    border-top: 2px solid var(--blue);
+    border-top: L var(--blue);
     padding-top: 20px;
     margin-top: 20px;
     background: linear-gradient(135deg, #1a1a1a, var(--dark));
@@ -418,7 +418,7 @@ body {
     border-color: #6c757d;
 }
 
-/* Modal */
+/* Modal - ОБНОВЛЕНО: плавающее модальное окно сверху */
 .modal {
     display: none;
     position: fixed;
@@ -426,63 +426,70 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.8);
     z-index: 1000;
-    justify-content: center;
-    align-items: center;
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    background: rgba(0,0,0,0.7);
 }
 
 .modal.active {
-    display: flex;
+    display: block;
+}
+
+#resultModal.active .modal-content {
+    animation: slideInFromTop 0.4s ease forwards;
+}
+
+@keyframes slideInFromTop {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
 }
 
 .modal-content {
     background: linear-gradient(105deg, var(--black), var(--blue-dark));
     border: 3px solid var(--blue);
-    padding: 40px;
-    border-radius: 25px;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 25px 70px rgba(70, 162, 224, 0.4);
+    border-radius: 0 0 20px 20px;
+    padding: 25px;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     color: var(--white);
-    animation: fadeInScale 0.3s ease forwards;
-}
-
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 .modal-content h2 {
     color: var(--primary);
-    margin-bottom: 20px;
-    font-size: 1.8rem;
+    margin-bottom: 15px;
+    font-size: 1.6rem;
+    text-align: center;
 }
 
 .contact-info {
-    margin: 30px 0;
+    margin: 20px 0;
     text-align: left;
 }
 
 .contact-item {
-    margin: 15px 0;
-    padding: 15px;
+    margin: 12px 0;
+    padding: 12px 15px;
     background: linear-gradient(135deg, var(--blue-light), var(--blue));
     border-radius: 10px;
     color: var(--white);
     border: 1px solid var(--blue-dark);
+    display: flex;
+    align-items: center;
 }
 
 .contact-item strong {
     color: var(--white);
+    min-width: 100px;
 }
 
 .contact-item a {
@@ -500,16 +507,16 @@ body {
     display: flex;
     gap: 15px;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .download-btn, .close-btn {
-    padding: 15px 30px;
+    padding: 12px 25px;
     border: 2px solid;
     border-radius: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
 }
 
@@ -528,7 +535,7 @@ body {
 }
 
 .download-btn:hover, .close-btn:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
@@ -637,28 +644,14 @@ body {
         font-size: 0.85rem;
     }
 
-    /* МОДАЛЬНОЕ ОКНО - КОМПАКТНОЕ ЦЕНТРАЛЬНОЕ */
-    .modal {
-        padding: 20px;
-        align-items: center;
-        justify-content: center;
-    }
-
+    /* ПЛАВАЮЩЕЕ МОДАЛЬНОЕ ОКНО В МОБИЛЬНОЙ ВЕРСИИ */
     .modal-content {
-        width: 90%;
-        max-width: 350px;
-        height: auto;
-        max-height: 80vh;
-        overflow-y: auto;
-        margin: 0;
-        border-radius: 20px;
-        padding: 25px 20px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        padding: 20px 15px;
     }
 
     .modal-content h2 {
-        font-size: 1.5rem;
-        margin-bottom: 15px;
+        font-size: 1.4rem;
+        margin-bottom: 12px;
     }
 
     .contact-info {
@@ -674,16 +667,16 @@ body {
     }
 
     .modal-actions {
-        flex-direction: column;
+        flex-direction: row;
         gap: 10px;
         margin-top: 15px;
+        justify-content: space-between;
     }
 
     .download-btn, .close-btn {
-        width: 100%;
-        padding: 12px;
-        font-size: 1rem;
-        border-radius: 15px;
+        width: 48%;
+        padding: 12px 5px;
+        font-size: 0.9rem;
     }
 
     .save-btn {
@@ -779,28 +772,18 @@ body {
         font-size: 0.95rem;
     }
 
-    /* МОДАЛЬНОЕ ОКНО - КОМПАКТНОЕ ДЛЯ МАЛЕНЬКИХ УСТРОЙСТВ */
-    .modal {
-        padding: 15px;
-    }
-
+    /* МОДАЛЬНОЕ ОКНО ДЛЯ МАЛЕНЬКИХ УСТРОЙСТВ */
     .modal-content {
-        width: 95%;
-        padding: 20px 15px;
-        border-radius: 15px;
-        max-height: 85vh;
+        padding: 16px 12px;
     }
 
     .modal-content h2 {
-        font-size: 1.3rem;
-        margin-bottom: 12px;
+        font-size: 1.25rem;
     }
 
     .contact-item {
-        padding: 8px 12px;
-        margin: 6px 0;
+        padding: 8px;
         font-size: 0.85rem;
-        border-radius: 8px;
     }
 
     .contact-item strong {
@@ -809,14 +792,14 @@ body {
     }
 
     .modal-actions {
+        flex-direction: column;
         gap: 8px;
-        margin-top: 12px;
     }
 
     .download-btn, .close-btn {
+        width: 100%;
         padding: 10px;
         font-size: 0.9rem;
-        border-radius: 12px;
     }
 }
 
@@ -868,12 +851,9 @@ html, body {
     width: 100%;
 }
 
-/* Блокировка скролла для модального окна */
-body.modal-open {
+/* Для анимации плавающего модального окна */
+.modal.active {
     overflow: hidden;
-    position: fixed;
-    width: 100%;
-    height: 100%;
 }
 
 /* Предотвращение прокрутки при клике на кнопки */
@@ -889,11 +869,6 @@ body.modal-open {
     .modal-content {
         padding-left: max(20px, env(safe-area-inset-left));
         padding-right: max(20px, env(safe-area-inset-right));
-        padding-bottom: max(20px, env(safe-area-inset-bottom));
+        padding-top: max(20px, env(safe-area-inset-top));
     }
-}
-
-/* Анимация для модального окна */
-.modal.active .modal-content {
-    animation: fadeInScale 0.3s ease forwards;
 }
