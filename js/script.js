@@ -529,7 +529,15 @@ function deselectSticker() {
 }
 
 // Сохранение дизайна
-function saveBag() {
+function saveBag(event) {
+    // Предотвращаем стандартное поведение кнопки
+    if (event) {
+        event.preventDefault();
+    }
+    
+    // Прокрутка страницы в самый верх
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
     const saveBtn = document.getElementById('saveBtn');
     const saveText = document.getElementById('saveText');
     
@@ -539,8 +547,8 @@ function saveBag() {
     // Создаем финальное изображение в высоком разрешении
     const finalCanvas = document.createElement('canvas');
     const pixelsPerMM = APP_CONFIG.CANVAS_QUALITY || 2;
-    finalCanvas.width = REAL_BAG_SIZE.width * pixelsPerMM;  // 860px
-    finalCanvas.height = REAL_BAG_SIZE.height * pixelsPerMM; // 960px
+    finalCanvas.width = REAL_BAG_SIZE.width * pixelsPerMM;
+    finalCanvas.height = REAL_BAG_SIZE.height * pixelsPerMM;
     const finalCtx = finalCanvas.getContext('2d');
     
     // Рисуем сумку в высоком разрешении
@@ -581,6 +589,8 @@ function saveBag() {
         
         showResultModal();
     }, 'image/png');
+    
+    return false;
 }
 
 function downloadImage() {
