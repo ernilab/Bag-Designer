@@ -161,7 +161,10 @@ body {
     display: grid;
     grid-template-columns: 1fr 350px;
     gap: 30px;
-    margin-bottom: 30px;
+    margin: 0 auto 30px auto; /* Центрирование по горизонтали и нижний отступ */
+    padding: 0 20px; /* Внутренние отступы по бокам */
+    max-width: 1200px; /* Ограничение ширины, чтобы не растягивалось слишком сильно */
+    box-sizing: border-box; /* Учитываем padding в ширине */
 }
 
 .bag-container {
@@ -334,12 +337,13 @@ body {
 }
 
 .control-group span {
+    margin-top: 2px;
     font-size: 0.9rem;
     color: var(--blue-light);
     font-weight: bold;
     background: var(--dark);
-    padding: 4px 8px;
-    border-radius: 5px;
+    padding: 0px 10px;
+    border-radius: 10px;
     border: 1px solid var(--blue);
 }
 
