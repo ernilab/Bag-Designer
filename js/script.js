@@ -174,14 +174,7 @@ function updateStickerInfo() {
         infoElement = document.createElement('div');
         infoElement.id = 'stickerSizeInfo';
         infoElement.style.cssText = `
-            margin-top: 10px;
-            padding: 8px;
-            background: linear-gradient(135deg, #46a2e0, #2e7cb8);
-            border-radius: 8px;
-            color: white;
-            font-size: 0.85rem;
-            text-align: center;
-            border: 1px solid #6bb3e8;
+            display:none;
         `;
         const controlPanel = document.getElementById('controlPanel');
         if (controlPanel) {
