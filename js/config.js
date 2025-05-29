@@ -47,7 +47,7 @@ const STICKER_CONFIGS = {
 // Переводы
 const translations = {
     en: {
-        title: 'Uber Bag Designer',
+        title: 'Design your unique bag',
         back: 'Back',
         stickersTitle: 'Choose Stickers',
         saveText: 'Save Design',
@@ -64,7 +64,7 @@ const translations = {
         stickerInfo: 'Size:'
     },
     pl: {
-        title: 'Projektant Torby Uber',
+        title: 'Zaprojektuj swoją unikalną torbę',
         back: 'Wstecz',
         stickersTitle: 'Wybierz Naklejki',
         saveText: 'Zapisz Projekt',
@@ -81,7 +81,7 @@ const translations = {
         stickerInfo: 'Rozmiar:'
     },
     ru: {
-        title: 'Дизайнер Сумки Uber',
+        title: 'Твой уникальный дизайн сумки',
         back: 'Назад',
         stickersTitle: 'Выберите Наклейки',
         saveText: 'Сохранить Дизайн',
