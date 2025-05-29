@@ -702,6 +702,49 @@ body {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+     /* Переместить кнопку сохранения наверх */
+    .actions {
+        order: -1; /* Перемещает наверх в flex-контейнере */
+        margin-bottom: 15px;
+        padding: 0 !important;
+    }
+    
+    .save-btn {
+        margin-bottom: 15px;
+        font-size: 0.95rem;
+        padding: 10px 25px;
+        border-radius: 25px;
+        width: auto; /* Автоматическая ширина вместо 100% */
+        max-width: none;
+    }
+    
+    /* Изменяем порядок элементов для мобильной верстки */
+    .designer-area {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Контейнер сумки теперь второй */
+    .bag-container {
+        order: 2;
+    }
+    
+    /* Панель наклеек теперь третья */
+    .stickers-panel {
+        order: 3;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Существующие стили... */
+    
+    .save-btn {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+    }
+}
 }
 
 @media (max-width: 480px) {
