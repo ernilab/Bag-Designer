@@ -535,7 +535,6 @@ function saveBag(event) {
         event.preventDefault();
     }
     
-    
     const saveBtn = document.getElementById('saveBtn');
     const saveText = document.getElementById('saveText');
     
@@ -587,9 +586,7 @@ function saveBag(event) {
         
         showResultModal();
     }, 'image/png');
-       
-    // Прокрутка страницы в самый верх
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
     return false;
 }
 
