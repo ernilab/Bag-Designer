@@ -1,7 +1,6 @@
 /**
- * Uber Bag Designer - Main Application Script
- */
-
+* Uber Bag Designer - Main Application Script
+*/
 let currentLanguage = 'en';
 let bagImage = null;
 let canvas, ctx;
@@ -9,24 +8,7 @@ let placedStickers = [];
 let isDragging = false;
 let dragOffset = { x: 0, y: 0 };
 let selectedSticker = null;
-
 let dpr = window.devicePixelRatio || 1;
-
-function initializeDesigner() {
-  canvas = document.getElementById('bagCanvas');
-  // создаём контекст ДО resizeCanvas
-  ctx = canvas.getContext('2d');
-  // включаем сглаживание и ставим максимальное качество
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'high';
-
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-  setupCanvasEvents();
-  setupControls();
-  loadBagImage();
-  loadStickers();
-}
 
 // Инициализация приложения
 document.addEventListener('DOMContentLoaded', function() {
@@ -35,17 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function initializeApp() {
     console.log('Initializing Uber Bag Designer...');
-    
-    // Инициализация канваса с правильными размерами
-    const canvas = document.getElementById('bagCanvas');
-    if (canvas) {
-        canvas.width = 430;  // Ширина сумки
-        canvas.height = 480; // Высота сумки
-    }
-    
-    // Добавление стилей для анимации наклеек
     addAnimationStyles();
-    
     console.log('App initialized successfully');
 }
 
@@ -65,12 +37,10 @@ function addAnimationStyles() {
 function selectLanguage(lang) {
     currentLanguage = lang;
     updateTexts();
-    
     const languageScreen = document.getElementById('languageScreen');
     const designerScreen = document.getElementById('designerScreen');
     
     languageScreen.classList.add('slide-out');
-    
     setTimeout(() => {
         languageScreen.classList.remove('active', 'slide-out');
         designerScreen.classList.add('active', 'slide-in');
@@ -80,12 +50,11 @@ function selectLanguage(lang) {
 
 function updateTexts() {
     const texts = translations[currentLanguage];
-    
     // Обновление всех текстовых элементов
     const elements = [
-        'title', 'backText', 'stickersTitle', 'saveText', 
-        'successTitle', 'instructionText', 'downloadText', 
-        'closeText', 'loadingBag', 'controlTitle', 
+        'title', 'backText', 'stickersTitle', 'saveText',
+        'successTitle', 'instructionText', 'downloadText',
+        'closeText', 'loadingBag', 'controlTitle',
         'rotateLabel', 'deleteText', 'deselectText'
     ];
     
@@ -124,9 +93,12 @@ function initializeDesigner() {
     canvas = document.getElementById('bagCanvas');
     ctx = canvas.getContext('2d');
     
+    // включаем сглаживание и ставим максимальное качество
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
-    
     setupCanvasEvents();
     setupControls();
     loadBagImage();
@@ -138,10 +110,15 @@ function setupControls() {
     const rotateSlider = document.getElementById('rotateSlider');
     const rotateValue = document.getElementById('rotateValue');
     
+    if (!rotateSlider || !rotateValue) return;
+    
+    // показываем начальное значение
+    rotateValue.textContent = `${rotateSlider.value}°`;
+    
     rotateSlider.addEventListener('input', function() {
+        rotateValue.textContent = `${this.value}°`;
         if (selectedSticker) {
             selectedSticker.rotation = parseFloat(this.value);
-            rotateValue.textContent = this.value + '°';
             redrawCanvas();
         }
     });
@@ -150,6 +127,8 @@ function setupControls() {
 // Панель управления
 function showControlPanel() {
     const controlPanel = document.getElementById('controlPanel');
+    if (!controlPanel) return;
+    
     controlPanel.style.display = 'block';
     controlPanel.style.animation = 'slideInFromRight 0.3s ease forwards';
     updateControls();
@@ -166,18 +145,18 @@ function hideControlPanel() {
 }
 
 function updateControls() {
-    if (selectedSticker) {
-        const rotateSlider = document.getElementById('rotateSlider');
-        const rotateValue = document.getElementById('rotateValue');
-        
-        if (rotateSlider && rotateValue) {
-            rotateSlider.value = selectedSticker.rotation || 0;
-            rotateValue.textContent = (selectedSticker.rotation || 0) + '°';
-        }
-        
-        // Показать информацию о размере наклейки
-        updateStickerInfo();
+    if (!selectedSticker) return;
+    
+    const rotateSlider = document.getElementById('rotateSlider');
+    const rotateValue = document.getElementById('rotateValue');
+    
+    if (rotateSlider && rotateValue) {
+        rotateSlider.value = selectedSticker.rotation || 0;
+        rotateValue.textContent = `${rotateSlider.value}°`;
     }
+    
+    // Показать информацию о размере наклейки
+    updateStickerInfo();
 }
 
 function updateStickerInfo() {
@@ -191,9 +170,8 @@ function updateStickerInfo() {
     if (!infoElement) {
         infoElement = document.createElement('div');
         infoElement.id = 'stickerSizeInfo';
-        infoElement.style.cssText = `
-            display:none;
-        `;
+        infoElement.style.cssText = `display:none;`;
+        
         const controlPanel = document.getElementById('controlPanel');
         if (controlPanel) {
             controlPanel.appendChild(infoElement);
@@ -210,6 +188,7 @@ function updateStickerInfo() {
 // Загрузка изображений из репозитория
 function loadBagImage() {
     const img = new Image();
+    img.crossOrigin = 'anonymous'; // Добавляем для избежания CORS проблем
     
     img.onload = function() {
         bagImage = img;
@@ -246,6 +225,7 @@ function loadStickers() {
     // Загрузка всех наклеек
     for (let i = 1; i <= totalStickers; i++) {
         const img = new Image();
+        img.crossOrigin = 'anonymous'; // Добавляем для избежания CORS проблем
         
         img.onload = function() {
             loadedStickers.push({
@@ -254,7 +234,6 @@ function loadStickers() {
                 image: img,
                 config: getStickerConfig(i)
             });
-            
             loadedCount++;
             checkLoadComplete();
         };
@@ -278,49 +257,63 @@ function loadStickers() {
 function displayStickers(stickers) {
     const stickersList = document.getElementById('stickersList');
     if (!stickersList) return;
-    
+
     stickersList.innerHTML = '';
-    
     if (stickers.length === 0) {
         stickersList.innerHTML = '<div class="no-stickers">No stickers found</div>';
         return;
     }
-    
+
     stickers.forEach((sticker, index) => {
         const stickerDiv = document.createElement('div');
         stickerDiv.className = 'sticker-item';
-        stickerDiv.onclick = () => addStickerToBag(sticker);
         
-        // Тултип с информацией о размере
+        // Добавляем обработчики для мыши И касаний
+        const addSticker = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            addStickerToBag(sticker);
+        };
+        
+        stickerDiv.addEventListener('click', addSticker);
+        stickerDiv.addEventListener('touchend', addSticker);
+
         const config = sticker.config;
         stickerDiv.title = `${config.name}\nРазмер: ${config.width/10}×${config.height/10} см`;
-        
+
         const img = document.createElement('img');
         img.src = sticker.src;
         img.alt = config.name;
+        img.style.pointerEvents = 'none'; // Предотвращаем события на изображении
         
         stickerDiv.appendChild(img);
         stickersList.appendChild(stickerDiv);
-        
+
         // Анимация появления
         setTimeout(() => {
             stickerDiv.style.opacity = '1';
             stickerDiv.style.transform = 'scale(1)';
         }, index * 100);
     });
-    
+
     console.log(`Loaded ${stickers.length} stickers`);
 }
 
 // Функция для добавления наклейки на сумку
 function addStickerToBag(sticker) {
+    console.log('Adding sticker to bag:', sticker); // Для отладки
+    
     const config = sticker.config;
     const canvasSize = calculateCanvasSize(config.width, config.height);
     
+    // Используем CSS-размеры для позиционирования
+    const cssWidth = canvas.width / dpr;
+    const cssHeight = canvas.height / dpr;
+    
     const placedSticker = {
         image: sticker.image,
-        x: canvas.width / 2 - canvasSize.width / 2,
-        y: canvas.height / 2 - canvasSize.height / 2,
+        x: cssWidth / 2 - canvasSize.width / 2,
+        y: cssHeight / 2 - canvasSize.height / 2,
         width: canvasSize.width,
         height: canvasSize.height,
         rotation: 0,
@@ -337,15 +330,17 @@ function addStickerToBag(sticker) {
     showControlPanel();
     redrawCanvas();
     
-    if (APP_CONFIG.DEBUG) {
-        console.log(`Added sticker: ${config.name}, Real: ${config.width/10}×${config.height/10}cm`);
-    }
+    console.log(`Added sticker: ${config.name}, Position: ${placedSticker.x}, ${placedSticker.y}, Size: ${placedSticker.width}x${placedSticker.height}`);
 }
 
 // Функции расчета размеров и масштабирования
 function calculateCanvasSize(realWidthMM, realHeightMM) {
-    const scaleX = canvas.width / REAL_BAG_SIZE.width;
-    const scaleY = canvas.height / REAL_BAG_SIZE.height;
+    // Используем CSS-размеры для расчета, а не физические
+    const cssWidth = canvas.width / dpr;
+    const cssHeight = canvas.height / dpr;
+    
+    const scaleX = cssWidth / REAL_BAG_SIZE.width;
+    const scaleY = cssHeight / REAL_BAG_SIZE.height;
     const scale = Math.min(scaleX, scaleY);
     
     return {
@@ -355,37 +350,42 @@ function calculateCanvasSize(realWidthMM, realHeightMM) {
 }
 
 function resizeCanvas() {
-  if (!canvas) return;
-
-  // вычисляем размер в CSS-пикселях, как раньше
-  const container = canvas.parentElement;
-  const maxWidth  = Math.min(container.clientWidth - 60, 500);
-  const maxHeight = Math.min(window.innerHeight * 0.6, 500);
-  const bagAR     = REAL_BAG_SIZE.width / REAL_BAG_SIZE.height;
-  let cssWidth, cssHeight;
-
-  if (maxWidth / maxHeight > bagAR) {
-    cssHeight = maxHeight;
-    cssWidth  = cssHeight * bagAR;
-  } else {
-    cssWidth  = maxWidth;
-    cssHeight = cssWidth / bagAR;
-  }
-
-  // ставим видимые размеры
-  canvas.style.width  = cssWidth + 'px';
-  canvas.style.height = cssHeight + 'px';
-
-  // ставим «физические» размеры под DPR
-  canvas.width  = Math.round(cssWidth  * dpr);
-  canvas.height = Math.round(cssHeight * dpr);
-
-  // ресетим трансформ и масштабируем контекст под DPR
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.scale(dpr, dpr);
-
-  // теперь canvas.buffer — в высоком разрешении, а рисуем мы в CSS-координатах
-  redrawCanvas();
+    if (!canvas) return;
+    
+    // вычисляем размер в CSS-пикселях
+    const container = canvas.parentElement;
+    const maxWidth = Math.min(container.clientWidth - 60, 500);
+    const maxHeight = Math.min(window.innerHeight * 0.6, 500);
+    const bagAR = REAL_BAG_SIZE.width / REAL_BAG_SIZE.height;
+    
+    let cssWidth, cssHeight;
+    if (maxWidth / maxHeight > bagAR) {
+        cssHeight = maxHeight;
+        cssWidth = cssHeight * bagAR;
+    } else {
+        cssWidth = maxWidth;
+        cssHeight = cssWidth / bagAR;
+    }
+    
+    // ставим видимые размеры
+    canvas.style.width = cssWidth + 'px';
+    canvas.style.height = cssHeight + 'px';
+    
+    // ставим «физические» размеры под DPR
+    canvas.width = Math.round(cssWidth * dpr);
+    canvas.height = Math.round(cssHeight * dpr);
+    
+    // ресетим трансформ и масштабируем контекст под DPR
+    if (ctx) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+        
+        // восстанавливаем качество
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+    }
+    
+    redrawCanvas();
 }
 
 // Настройка событий канваса
@@ -396,22 +396,18 @@ function setupCanvasEvents() {
     canvas.addEventListener('mouseup', handleEnd);
     
     // События касания
-    canvas.addEventListener('touchstart', handleStart);
-    canvas.addEventListener('touchmove', handleMove);
-    canvas.addEventListener('touchend', handleEnd);
-    
-    // Предотвращение стандартного поведения касаний
-    canvas.addEventListener('touchstart', e => e.preventDefault());
-    canvas.addEventListener('touchmove', e => e.preventDefault());
+    canvas.addEventListener('touchstart', handleStart, { passive: false });
+    canvas.addEventListener('touchmove', handleMove, { passive: false });
+    canvas.addEventListener('touchend', handleEnd, { passive: false });
 }
 
 function getEventPos(e) {
     const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
+    // Используем CSS-размеры для расчета позиции
+    const scaleX = (canvas.width / dpr) / rect.width;
+    const scaleY = (canvas.height / dpr) / rect.height;
     
     let clientX, clientY;
-    
     if (e.touches && e.touches[0]) {
         clientX = e.touches[0].clientX;
         clientY = e.touches[0].clientY;
@@ -433,7 +429,6 @@ function handleStart(e) {
     // Проверяем клик по размещенным наклейкам
     for (let i = placedStickers.length - 1; i >= 0; i--) {
         const sticker = placedStickers[i];
-        
         if (isPointInSticker(pos, sticker)) {
             isDragging = true;
             selectedSticker = sticker;
@@ -454,9 +449,9 @@ function handleStart(e) {
 }
 
 function isPointInSticker(point, sticker) {
-    return point.x >= sticker.x && 
+    return point.x >= sticker.x &&
            point.x <= sticker.x + sticker.width &&
-           point.y >= sticker.y && 
+           point.y >= sticker.y &&
            point.y <= sticker.y + sticker.height;
 }
 
@@ -467,10 +462,12 @@ function handleMove(e) {
         selectedSticker.x = pos.x - dragOffset.x;
         selectedSticker.y = pos.y - dragOffset.y;
         
-        // Удерживаем наклейку в границах канваса
-        selectedSticker.x = Math.max(0, Math.min(canvas.width - selectedSticker.width, selectedSticker.x));
-        selectedSticker.y = Math.max(0, Math.min(canvas.height - selectedSticker.height, selectedSticker.y));
+        // Используем CSS-размеры для границ
+        const cssWidth = canvas.width / dpr;
+        const cssHeight = canvas.height / dpr;
         
+        selectedSticker.x = Math.max(0, Math.min(cssWidth - selectedSticker.width, selectedSticker.x));
+        selectedSticker.y = Math.max(0, Math.min(cssHeight - selectedSticker.height, selectedSticker.y));
         redrawCanvas();
     }
 }
@@ -482,43 +479,49 @@ function handleEnd(e) {
 
 // Отрисовка канваса
 function redrawCanvas() {
-  if (!canvas || !ctx) return;
-
-  // при любом перерисовывании убеждаемся, что сглаживание включено
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'high';
-
-  // очищаем в CSS-координатах
-  ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
-
-  // рисуем сумку
-  if (bagImage) {
-    ctx.drawImage(
-      bagImage,
-      0, 0,
-      canvas.width / dpr,
-      canvas.height / dpr
-    );
-  }
-
-  // рисуем наклейки точно так же, но опять же в CSS-координатах
-  placedStickers.forEach(sticker => {
-    ctx.save();
-    // центр наклейки
-    ctx.translate(sticker.x + sticker.width / 2,
-                  sticker.y + sticker.height / 2);
-    if (sticker.rotation) {
-      ctx.rotate(sticker.rotation * Math.PI / 180);
+    if (!canvas || !ctx) return;
+    
+    // при любом перерисовывании убеждаемся, что сглаживание включено
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    
+    // очищаем в CSS-координатах
+    ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+    
+    // рисуем сумку
+    if (bagImage) {
+        ctx.drawImage(
+            bagImage,
+            0, 0,
+            canvas.width / dpr,
+            canvas.height / dpr
+        );
     }
-    // размер и положение в CSS px
-    ctx.drawImage(
-      sticker.image,
-      -sticker.width  / 2,
-      -sticker.height / 2,
-      sticker.width,
-      sticker.height
-    );
-    ctx.restore();
+    
+    // рисуем наклейки
+    placedStickers.forEach(sticker => {
+        ctx.save();
+        
+        // центр наклейки
+        ctx.translate(
+            sticker.x + sticker.width / 2,
+            sticker.y + sticker.height / 2
+        );
+        
+        if (sticker.rotation) {
+            ctx.rotate(sticker.rotation * Math.PI / 180);
+        }
+        
+        // размер и положение в CSS px
+        ctx.drawImage(
+            sticker.image,
+            -sticker.width / 2,
+            -sticker.height / 2,
+            sticker.width,
+            sticker.height
+        );
+        
+        ctx.restore();
         
         // Подсвечиваем выбранную наклейку
         if (sticker === selectedSticker) {
@@ -574,9 +577,13 @@ function saveBag(event) {
     // Создаем финальное изображение в высоком разрешении
     const finalCanvas = document.createElement('canvas');
     const pixelsPerMM = APP_CONFIG.CANVAS_QUALITY || 2;
+    
     finalCanvas.width = REAL_BAG_SIZE.width * pixelsPerMM;
     finalCanvas.height = REAL_BAG_SIZE.height * pixelsPerMM;
+    
     const finalCtx = finalCanvas.getContext('2d');
+    finalCtx.imageSmoothingEnabled = true;
+    finalCtx.imageSmoothingQuality = 'high';
     
     // Рисуем сумку в высоком разрешении
     if (bagImage) {
@@ -588,8 +595,11 @@ function saveBag(event) {
         finalCtx.save();
         
         // Рассчитываем финальную позицию и размер
-        const finalX = (sticker.x / canvas.width) * finalCanvas.width;
-        const finalY = (sticker.y / canvas.height) * finalCanvas.height;
+        const cssWidth = canvas.width / dpr;
+        const cssHeight = canvas.height / dpr;
+        
+        const finalX = (sticker.x / cssWidth) * finalCanvas.width;
+        const finalY = (sticker.y / cssHeight) * finalCanvas.height;
         const finalWidth = sticker.realWidth * pixelsPerMM;
         const finalHeight = sticker.realHeight * pixelsPerMM;
         
@@ -599,7 +609,13 @@ function saveBag(event) {
             finalCtx.rotate(sticker.rotation * Math.PI / 180);
         }
         
-        finalCtx.drawImage(sticker.image, -finalWidth / 2, -finalHeight / 2, finalWidth, finalHeight);
+        finalCtx.drawImage(
+            sticker.image,
+            -finalWidth / 2,
+            -finalHeight / 2,
+            finalWidth,
+            finalHeight
+        );
         
         finalCtx.restore();
     });
@@ -636,26 +652,10 @@ function showResultModal() {
     const modal = document.getElementById('resultModal');
     if (modal) {
         modal.classList.add('active');
-    }
-}
-
-function closeModal() {
-    const modal = document.getElementById('resultModal');
-    if (modal) {
-        modal.classList.remove('active');
-    }
-}
-
-// Добавить в showResultModal()
-function showResultModal() {
-    const modal = document.getElementById('resultModal');
-    if (modal) {
-        modal.classList.add('active');
         document.body.classList.add('modal-open');
     }
 }
 
-// Добавить в closeModal()
 function closeModal() {
     const modal = document.getElementById('resultModal');
     if (modal) {
