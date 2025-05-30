@@ -34,7 +34,8 @@ const STICKER_CONFIGS = {
     10: { width: 140, height: 45, type: 'square_medium', name: 'Средний логотип' },
     11: { width: 100, height: 75, type: 'square_small', name: 'Маленькая иконка' },
     12: { width: 240, height: 90, type: 'rectangle_long', name: 'Длинный текст' },
-    13: { width: 340, height: 85, type: 'square_xl', name: 'Большой логотип' }
+    13: { width: 340, height: 85, type: 'square_xl', name: 'Большой логотип' },
+    14: { width: 70, height: 80, type: 'square_xl', name: 'Большой логотип' }
 
 // Переводы
 const translations = {
