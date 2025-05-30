@@ -22,27 +22,19 @@ const STICKER_CONFIGS = {
     2: { width: 100, height: 100, type: 'square_large', name: 'QR код' },
     3: { width: 100, height: 100, type: 'square_large', name: 'Рейтинг' },
     4: { width: 100, height: 100, type: 'square_large', name: 'Иконка доставки' },
+    5: { width: 100, height: 100, type: 'rectangle_wide', name: 'Call Us' },
+    6: { width: 100, height: 100, type: 'rectangle_wide', name: 'Become a courier with Eternis' },
     
     // Прямоугольные наклейки 24x9 см
-    5: { width: 280, height: 60, type: 'rectangle_wide', name: 'Call Us' },
-    6: { width: 240, height: 60, type: 'rectangle_wide', name: 'Become a courier with Eternis' },
-    7: { width: 280, height: 60, type: 'rectangle_wide', name: 'Слоган' },
-    8: { width: 280, height: 60, type: 'rectangle_wide', name: 'Инструкции' },
-    
+    7: { width: 100, height: 50, type: 'rectangle_wide', name: 'Слоган' },
+    8: { width: 100, height: 50, type: 'rectangle_wide', name: 'Инструкции' },
+    9: { width: 100, height: 50, type: 'rectangle_medium', name: 'Средний текст' },
     // Дополнительные размеры
-    9: { width: 150, height: 50, type: 'rectangle_medium', name: 'Средний текст' },
-    10: { width: 80, height: 80, type: 'square_medium', name: 'Средний логотип' },
-    11: { width: 60, height: 60, type: 'square_small', name: 'Маленькая иконка' },
-    12: { width: 200, height: 60, type: 'rectangle_long', name: 'Длинный текст' },
-    13: { width: 120, height: 120, type: 'square_xl', name: 'Большой логотип' },
-    14: { width: 180, height: 40, type: 'rectangle_thin', name: 'Тонкая полоска' },
-    15: { width: 70, height: 140, type: 'rectangle_tall', name: 'Вертикальный текст' },
-    16: { width: 100, height: 100, type: 'square_large', name: 'Наклейка 16' },
-    17: { width: 240, height: 90, type: 'rectangle_wide', name: 'Наклейка 17' },
-    18: { width: 100, height: 100, type: 'square_large', name: 'Наклейка 18' },
-    19: { width: 240, height: 90, type: 'rectangle_wide', name: 'Наклейка 19' },
-    20: { width: 100, height: 100, type: 'square_large', name: 'Наклейка 20' }
-};
+
+    10: { width: 140, height: 45, type: 'square_medium', name: 'Средний логотип' },
+    11: { width: 100, height: 75, type: 'square_small', name: 'Маленькая иконка' },
+    12: { width: 240, height: 90, type: 'rectangle_long', name: 'Длинный текст' },
+    13: { width: 340, height: 85, type: 'square_xl', name: 'Большой логотип' }
 
 // Переводы
 const translations = {
