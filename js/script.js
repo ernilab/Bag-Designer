@@ -159,6 +159,15 @@ function initializeDesigner() {
   resizeCanvas();
   window.addEventListener('orientationchange', resizeCanvas);
 
+  document.addEventListener('click', function(e) {
+    // Проверяем, что клик был не по канвасу и не по элементам управления
+    if (!e.target.closest('#bagCanvas') && 
+        !e.target.closest('.control-panel') && 
+        !e.target.closest('.sticker-item')) {
+        deselectSticker();
+    }
+});
+  
   setupCanvasEvents();
   setupControls();
   loadBagImage();
@@ -551,26 +560,26 @@ function getEventPos(e) {
 
 function handleStart(e) {
     e.preventDefault();
-  const pos = getEventPos(e);
-  // Проверяем клик по размещенным наклейкам
-  for (let i = placedStickers.length - 1; i >= 0; i--) {
-    const sticker = placedStickers[i];
-    if (isPointInSticker(pos, sticker)) {
-      isDragging = true;
-      selectedSticker = sticker;
-      updateControls(); // Добавляем вызов updateControls
-      dragOffset = {
-        x: pos.x - sticker.x,
-        y: pos.y - sticker.y
-      };
-      redrawCanvas();
-      return;
+    const pos = getEventPos(e);
+    
+    // Проверяем клик по размещенным наклейкам
+    for (let i = placedStickers.length - 1; i >= 0; i--) {
+        const sticker = placedStickers[i];
+        if (isPointInSticker(pos, sticker)) {
+            isDragging = true;
+            selectedSticker = sticker;
+            updateControls();
+            dragOffset = {
+                x: pos.x - sticker.x,
+                y: pos.y - sticker.y
+            };
+            redrawCanvas();
+            return;
+        }
     }
-  }
-  // Если не кликнули по наклейке, убираем выделение
-  if (selectedSticker) {
+    
+    // Если кликнули по пустому месту на канвасе
     deselectSticker();
-  }
 }
 
 function isPointInSticker(point, sticker) {
