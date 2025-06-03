@@ -16,13 +16,8 @@
 }
 
 html, body {
-  height: auto;                /* убираем всякую «100vh» от сюда */
-  min-height: 100%;
-  overflow-y: auto;            /* вертикальный скролл по body */
-  overscroll-behavior-y: auto; /* оживляем резинку/передачу свайпа */
-  -webkit-overflow-scrolling: touch; /* плавный скролл на iOS */
+  overscroll-behavior-y: auto;
 }
-
 body {
   min-height: 100vh;
   overflow-x: hidden;
@@ -45,20 +40,21 @@ body {
 }
 
 .container {
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  width: 100%;
 }
 
 .screen {
-  position: relative;        /* чтобы не вырывать из документа */
-  height: auto;              /* пусть растёт по содержимому */
-  min-height: calc(var(--vh,1vh)*100); /* опционально: чтобы был минимум */
-  overflow: visible;         /* не режем содержимое */
-  transition: transform .6s, opacity .6s;
+  position: relative;       /* не абсолют */
+  height: auto;             /* контент задаёт собственную высоту */
+  min-height: calc(var(--vh,1vh)*100);
+  width: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.6s ease;
   opacity: 0;
-  transform: translateX(100%);
+  transform: translateX(100%) translateZ(0);
+  will-change: transform, opacity;
 }
 
 .screen.active {
