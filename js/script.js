@@ -187,25 +187,34 @@ function setupControls() {
 
 // Панель управления
 function showControlPanel() {
-  updateControls();
+  ;
 }
 
 function hideControlPanel() {
 }
 
 function updateControls() {
-  if (!selectedSticker) return;
-
-  const rotateSlider = document.getElementById('rotateSlider');
-  const rotateValue = document.getElementById('rotateValue');
-
-  if (rotateSlider && rotateValue) {
-    rotateSlider.value = selectedSticker.rotation || 0;
-    rotateValue.textContent = `${rotateSlider.value}°`;
+  if (!selectedSticker) {
+    // Если наклейка не выбрана - отключаем все контролы
+    document.getElementById('rotateSlider').disabled = true;
+    document.getElementById('deleteBtn').disabled = true;
+    document.getElementById('deselectBtn').disabled = true;
+    document.getElementById('rotateSlider').value = 0;
+    document.getElementById('rotateValue').textContent = '0°';
+  } else {
+    // Если наклейка выбрана - включаем все контролы
+    document.getElementById('rotateSlider').disabled = false;
+    document.getElementById('deleteBtn').disabled = false;
+    document.getElementById('deselectBtn').disabled = false;
+    
+    // Обновляем значение поворота
+    const rotateSlider = document.getElementById('rotateSlider');
+    const rotateValue = document.getElementById('rotateValue');
+    if (rotateSlider && rotateValue) {
+      rotateSlider.value = selectedSticker.rotation || 0;
+      rotateValue.textContent = `${rotateSlider.value}°`;
+    }
   }
-
-  // Показать информацию о размере наклейки
-  updateStickerInfo();
 }
 
 function updateStickerInfo() {
@@ -946,4 +955,9 @@ function showTooFewStickersWarning() {
     `Minimum ${STICKER_LIMITS.MIN} stickers required!`;
 
   alert(warningText);
+}
+
+function selectSticker(sticker) {
+  selectedSticker = sticker;
+  updateControls();
 }
