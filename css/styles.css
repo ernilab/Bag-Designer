@@ -15,11 +15,6 @@
   --vh: 1vh;
 }
 
-/* Фиксированная высота мобильного вьюпорта */
-html {
-  height: -webkit-fill-available;
-}
-
 body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
