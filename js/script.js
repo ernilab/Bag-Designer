@@ -187,22 +187,10 @@ function setupControls() {
 
 // Панель управления
 function showControlPanel() {
-  const controlPanel = document.getElementById('controlPanel');
-  if (!controlPanel) return;
-
-  controlPanel.style.display = 'block';
-  controlPanel.style.animation = 'slideInFromRight 0.3s ease forwards';
   updateControls();
 }
 
 function hideControlPanel() {
-  const controlPanel = document.getElementById('controlPanel');
-  if (controlPanel) {
-    controlPanel.style.animation = 'slideOutToLeft 0.3s ease forwards';
-    setTimeout(() => {
-      controlPanel.style.display = 'none';
-    }, 300);
-  }
 }
 
 function updateControls() {
@@ -698,7 +686,7 @@ function deleteSelectedSticker() {
 
 function deselectSticker() {
   selectedSticker = null;
-  hideControlPanel();
+  updateControls(); // Заменяем hideControlPanel на updateControls
   redrawCanvas();
 }
 
