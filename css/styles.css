@@ -31,7 +31,6 @@ body {
 /* Предотвращение упругого скролла (rubber-band effect) */
 html, body {
   overscroll-behavior: auto;
-  overscroll-behavior-y: none;
 }
 
 /* Улучшение производительности скролла */
