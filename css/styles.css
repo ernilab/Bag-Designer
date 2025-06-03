@@ -769,7 +769,7 @@ body {
       height: 50px;
   }
   .control-panel {
-      padding: 12px;
+      padding: 5px;
   }
   .control-buttons {
       flex-direction: column;
