@@ -194,26 +194,29 @@ function hideControlPanel() {
 }
 
 function updateControls() {
-  if (!selectedSticker) {
-    // Если наклейка не выбрана - отключаем все контролы
-    document.getElementById('rotateSlider').disabled = true;
-    document.getElementById('deleteBtn').disabled = true;
-    document.getElementById('deselectBtn').disabled = true;
-    document.getElementById('rotateSlider').value = 0;
-    document.getElementById('rotateValue').textContent = '0°';
-  } else {
-    // Если наклейка выбрана - включаем все контролы
-    document.getElementById('rotateSlider').disabled = false;
-    document.getElementById('deleteBtn').disabled = false;
-    document.getElementById('deselectBtn').disabled = false;
+  console.log('Updating controls, selectedSticker:', selectedSticker); // Для отладки
+
+  const rotateSlider = document.getElementById('rotateSlider');
+  const deleteBtn = document.getElementById('deleteBtn');
+  const deselectBtn = document.getElementById('deselectBtn');
+  const rotateValue = document.getElementById('rotateValue');
+
+  if (selectedSticker) {
+    // Включаем элементы управления
+    rotateSlider.disabled = false;
+    deleteBtn.disabled = false;
+    deselectBtn.disabled = false;
     
     // Обновляем значение поворота
-    const rotateSlider = document.getElementById('rotateSlider');
-    const rotateValue = document.getElementById('rotateValue');
-    if (rotateSlider && rotateValue) {
-      rotateSlider.value = selectedSticker.rotation || 0;
-      rotateValue.textContent = `${rotateSlider.value}°`;
-    }
+    rotateSlider.value = selectedSticker.rotation || 0;
+    rotateValue.textContent = `${rotateSlider.value}°`;
+  } else {
+    // Отключаем элементы управления
+    rotateSlider.disabled = true;
+    deleteBtn.disabled = true;
+    deselectBtn.disabled = true;
+    rotateSlider.value = 0;
+    rotateValue.textContent = '0°';
   }
 }
 
@@ -406,9 +409,9 @@ function addStickerToBag(sticker) {
     required: sticker.required
   };
 
-  placedStickers.push(placedSticker);
+placedStickers.push(placedSticker);
   selectedSticker = placedSticker;
-  showControlPanel();
+  updateControls(); // Добавляем вызов updateControls
   redrawCanvas();
 
   // Проверяем, добавлены ли все обязательные наклейки
@@ -547,16 +550,15 @@ function getEventPos(e) {
 }
 
 function handleStart(e) {
-  e.preventDefault();
+    e.preventDefault();
   const pos = getEventPos(e);
-
   // Проверяем клик по размещенным наклейкам
   for (let i = placedStickers.length - 1; i >= 0; i--) {
     const sticker = placedStickers[i];
     if (isPointInSticker(pos, sticker)) {
       isDragging = true;
       selectedSticker = sticker;
-      showControlPanel();
+      updateControls(); // Добавляем вызов updateControls
       dragOffset = {
         x: pos.x - sticker.x,
         y: pos.y - sticker.y
@@ -565,7 +567,6 @@ function handleStart(e) {
       return;
     }
   }
-
   // Если не кликнули по наклейке, убираем выделение
   if (selectedSticker) {
     deselectSticker();
