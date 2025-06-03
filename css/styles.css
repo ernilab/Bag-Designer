@@ -329,8 +329,8 @@ body {
   cursor: pointer;
   border: 2px solid var(--white);
   box-shadow: 0 2px 8px rgba(70, 162, 224, 0.3);
-  min-width: 44px;
-  min-height: 44px;
+  min-width: 12px;
+  min-height: 12px;
 }
 .control-group input[type="range"]::-moz-range-thumb {
   width: 20px;
@@ -339,8 +339,8 @@ body {
   background: linear-gradient(135deg, var(--blue), var(--blue-light));
   cursor: pointer;
   border: 2px solid var(--white);
-  min-width: 44px;
-  min-height: 44px;
+  min-width: 12px;
+  min-height: 12px;
 }
 .control-group span {
   margin-top: 2px;
@@ -606,14 +606,13 @@ body {
   }
   /* МОБИЛЬНАЯ СЕТКА - ВЕРТИКАЛЬНОЕ РАСПОЛОЖЕНИЕ */
   .designer-area {
-      gap: 10px;
+      gap: 5px;
   }
   /* КОНТЕЙНЕР СУМКИ */
   .bag-container {
       padding: 15px;
       min-height: auto;
-      order: 1;
-      transform: scale(0.85);
+      transform: scale(0.95);
       transform-origin: center top;
       margin: 0% auto 0;
       height: auto;
