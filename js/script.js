@@ -157,7 +157,7 @@ function initializeDesigner() {
   ctx.imageSmoothingQuality = 'high';
 
   resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('orientationchange', resizeCanvas);
 
   setupCanvasEvents();
   setupControls();
