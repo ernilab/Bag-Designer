@@ -70,7 +70,6 @@ body {
 /* Language Selection */
 #languageScreen {
   background: linear-gradient(105deg, var(--black), var(--blue-dark));
-  display: flex;
   align-items: center;
   justify-content: center;
 }
