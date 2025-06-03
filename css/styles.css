@@ -187,7 +187,7 @@ html, body {
   display: grid;
   grid-template-columns: 1fr 350px;
   gap: 30px;
-  margin: 0 auto 30px auto;
+  margin: 0 auto 0px auto;
   padding: 0 20px;
   max-width: 1200px;
   box-sizing: border-box;
