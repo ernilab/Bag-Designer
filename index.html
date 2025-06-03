@@ -77,34 +77,19 @@
         <div id="controlPanel" class="control-panel">
           <h4 id="controlTitle">Sticker Controls</h4>
           <div class="controls">
-            <div class="control-group">
+           <div class="control-group">
               <label id="rotateLabel">Rotate:</label>
-              <input
-                type="range"
-                id="rotateSlider"
-                min="-180"
-                max="180"
-                value="0"
-              />
+              <input type="range" id="rotateSlider" min="-180" max="180" value="0" disabled />
               <span id="rotateValue">0°</span>
             </div>
             <div class="control-buttons">
-              <button
-                id="deleteBtn"
-                class="delete-btn"
-                onclick="deleteSelectedSticker()"
-              >
+              <button id="deleteBtn" class="delete-btn" onclick="deleteSelectedSticker()" disabled>
                 <span id="deleteText">Delete</span>
               </button>
-              <button
-                id="deselectBtn"
-                class="deselect-btn"
-                onclick="deselectSticker()"
-                style="display: none"
-              >
+              <button id="deselectBtn" class="deselect-btn" onclick="deselectSticker()" disabled>
                 <span id="deselectText">Deselect</span>
               </button>
-            </div>
+        </div>
           </div>
         </div>
 
