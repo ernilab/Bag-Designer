@@ -66,49 +66,33 @@
         </div>
       </div>
 
-      <div class="designer-area">
-        <!-- Bag Canvas -->
-        <div class="bag-container">
-          <canvas id="bagCanvas" width="430" height="480"></canvas>
-          <div id="loadingBag" class="loading">Loading bag...</div>
-        </div>
-
-        <!-- Control Panel -->
-        <div id="controlPanel" class="control-panel" style="display: none">
-          <h4 id="controlTitle">Sticker Controls</h4>
-          <div class="controls">
-            <div class="control-group">
-              <label id="rotateLabel">Rotate:</label>
-              <input
-                type="range"
-                id="rotateSlider"
-                min="-180"
-                max="180"
-                value="0"
-              />
-              <span id="rotateValue">0°</span>
-            </div>
-            <div class="control-buttons">
-              <button
-                id="deleteBtn"
-                class="delete-btn"
-                onclick="deleteSelectedSticker()"
-              >
-                <span id="deleteText">Delete</span>
-              </button>
-              <button
-                id="deselectBtn"
-                class="deselect-btn"
-                onclick="deselectSticker()"
-              >
-                <span id="deselectText">Deselect</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Stickers Panel -->
-        <div class="stickers-panel">
+<div class="designer-area">
+  <div class="main-content">
+    <div class="bag-container">
+      <canvas id="bagCanvas" width="430" height="480"></canvas>
+      <div id="loadingBag" class="loading">Loading bag...</div>
+    </div>
+    
+    <!-- Постоянно видимая панель управления -->
+    <div class="control-panel" id="controlPanel">
+      <div class="control-group">
+        <label id="rotateLabel">🔄</label>
+        <input type="range" id="rotateSlider" min="-180" max="180" value="0" disabled>
+        <span id="rotateValue">0°</span>
+      </div>
+      
+      <div class="control-buttons">
+        <button id="deleteBtn" class="delete-btn" onclick="deleteSelectedSticker()" disabled>
+          🗑️
+        </button>
+        <button id="deselectBtn" class="deselect-btn" onclick="deselectSticker()" disabled>
+          ✖️
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="stickers-panel">
           <h3 id="stickersTitle">Choose Stickers</h3>
           <div id="stickersList" class="stickers-list">
             <!-- Stickers will be loaded here -->
