@@ -285,15 +285,23 @@ body {
   font-weight: 600;
   text-shadow: 0 2px 10px rgba(70, 162, 224, 0.5);
 }
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 /* Control Panel */
 .control-panel {
-  border-top: 2px solid var(--blue);
-  padding-top: 20px;
-  margin-top: 20px;
   background: linear-gradient(135deg, #1a1a1a, var(--dark));
-  border-radius: 10px;
-  padding: 20px;
   border: 1px solid var(--blue-light);
+  border-radius: 15px;
+  padding: 12px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
 }
 .control-panel h4 {
   color: var(--blue-light);
@@ -353,6 +361,37 @@ body {
   padding: 0px 10px;
   border-radius: 10px;
   border: 1px solid var(--blue);
+}
+/* Стили для неактивного состояния */
+.control-panel.inactive {
+  opacity: 0.7;
+}
+
+.control-panel input[type="range"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.control-panel button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: linear-gradient(135deg, #4a4a4a, #2a2a2a);
+}
+
+/* Активное состояние */
+.control-panel.active {
+  opacity: 1;
+  border-color: var(--blue);
+}
+
+.control-panel.active input[type="range"]:not(:disabled) {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.control-panel.active button:not(:disabled) {
+  opacity: 1;
+  cursor: pointer;
 }
 .control-buttons {
   display: flex;
@@ -735,6 +774,37 @@ body {
       overflow: hidden;
       text-overflow: ellipsis;
   }
+   .designer-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .main-content {
+    order: 1;
+  }
+
+  .control-panel {
+    padding: 8px;
+    border-radius: 12px;
+  }
+
+  .control-group {
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .control-buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  .delete-btn, .deselect-btn {
+    padding: 8px;
+    font-size: 0.9rem;
+    min-height: 36px;
+    min-width: 36px;
+  }
 }
 @media (max-width: 480px) {
   .container {
@@ -821,6 +891,19 @@ body {
       padding: 10px;
       font-size: 0.9rem;
       border-radius: 12px;
+  }
+   .control-panel {
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  .control-group {
+    flex: 2;
+  }
+
+  .control-buttons {
+    flex: 1;
+    justify-content: flex-end;
   }
 }
 /* Фиксы для iOS */
