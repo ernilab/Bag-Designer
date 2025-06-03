@@ -62,7 +62,7 @@ body {
 }
 /* Language Selection */
 #languageScreen {
-  background: linear-gradient(105deg, var(--black), var(--blue-dark));
+  background: --black;
   display: flex;
   align-items: center;
   justify-content: center;
