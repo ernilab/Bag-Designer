@@ -815,43 +815,41 @@ function downloadImage(event) {
   }
 }
 
-// Модальные окна
+// Обновленные функции модального окна
 function showResultModal() {
-  const modal = document.getElementById('resultModal');
-  if (modal) {
-    // Сохраняем текущую позицию прокрутки
-    modalScrollY = window.scrollY || document.documentElement.scrollTop;
-    document.body.style.top = `-${modalScrollY}px`;
-
-    // Блокируем прокрутку страницы
-    document.body.classList.add('modal-open');
-    document.documentElement.classList.add('modal-open');
-
-    // Показываем модальное окно
-    modal.classList.add('active');
-
-    // Предотвращаем прокрутку страницы под модальным окном
-    document.addEventListener('touchmove', preventModalScroll, { passive: false });
-  }
+    const modal = document.getElementById('resultModal');
+    if (modal) {
+        // Предотвращаем скролл только когда открыто модальное окно
+        modalScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+        
+        document.body.classList.add('modal-open');
+        modal.classList.add('active');
+        
+        // Зафиксируем положение body
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${modalScrollY}px`;
+        document.body.style.width = '100%';
+        
+        // Добавляем обработчик только при открытом модальном окне
+        document.addEventListener('touchmove', preventModalScroll, { passive: false });
+    }
 }
 
 function closeModal() {
-  const modal = document.getElementById('resultModal');
-  if (modal) {
-    modal.classList.remove('active');
-
-    // Восстанавливаем прокрутку после небольшой задержки
-    setTimeout(() => {
-      document.body.classList.remove('modal-open');
-      document.documentElement.classList.remove('modal-open');
-      document.body.style.top = '';
-
-      window.scrollTo(0, modalScrollY || 0);
-
-      // Удаляем обработчик
-      document.removeEventListener('touchmove', preventModalScroll);
-    }, 100);
-  }
+    const modal = document.getElementById('resultModal');
+    if (modal) {
+        modal.classList.remove('active');
+        
+        // Восстанавливаем прокрутку
+        document.body.classList.remove('modal-open');
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        
+        window.scrollTo(0, modalScrollY);
+        
+        document.removeEventListener('touchmove', preventModalScroll);
+    }
 }
 
 function showMissingStickersModal(missingIds) {
