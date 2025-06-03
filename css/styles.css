@@ -153,14 +153,13 @@ body {
   box-shadow: 0 7px 20px rgba(255,255,255,0.3);
 }
 .designer-area {
-  display: grid;
-  grid-template-columns: 1fr 350px;
-  gap: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Отступ между элементами */
   margin: 0 auto 30px auto;
   padding: 0 20px;
   max-width: 1200px;
   box-sizing: border-box;
-  -webkit-overflow-scrolling: touch;
 }
 .bag-container {
   background: linear-gradient(135deg, var(--gray-light), var(--white));
@@ -287,12 +286,11 @@ body {
 }
 /* Control Panel */
 .control-panel {
-  border-top: 2px solid var(--blue);
-  padding-top: 20px;
-  margin-top: 20px;
+  width: 100%;
+  margin: 10px 0; /* Отступы сверху и снизу */
   background: linear-gradient(135deg, #1a1a1a, var(--dark));
   border-radius: 10px;
-  padding: 20px;
+  padding: 15px;
   border: 1px solid var(--blue-light);
 }
 .control-panel h4 {
@@ -608,10 +606,7 @@ body {
   }
   /* МОБИЛЬНАЯ СЕТКА - ВЕРТИКАЛЬНОЕ РАСПОЛОЖЕНИЕ */
   .designer-area {
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-      width: 100%;
+      gap: 10px;
   }
   /* КОНТЕЙНЕР СУМКИ */
   .bag-container {
@@ -622,6 +617,7 @@ body {
       transform-origin: center top;
       margin: 0% auto 0;
       height: auto;
+      margin-bottom: 0;
   }
   #bagCanvas {
       width: 100%;
@@ -661,8 +657,8 @@ body {
   }
   /* ПАНЕЛЬ УПРАВЛЕНИЯ */
   .control-panel {
-      padding: 15px;
-      margin-top: 15px;
+    margin: 5px 0;
+    padding: 10px;
   }
   .control-buttons {
       flex-direction: row;
